@@ -1,0 +1,275 @@
+/* ==========================================
+   ส่วนปรับแต่งรูปวงกลม และ รูปแบนเนอร์
+   ========================================== */
+
+/* จัดการแสดงผลรูปภาพแบนเนอร์ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* ป้องกันการเลื่อนซ้าย-ขวาเกินจอ */
+}
+
+.image-banner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.full-width-img {
+  width: 100vw;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ส่วนแสดงสาขาแบบวงกลม (จุดที่ 4) */
+.branches-section {
+  padding: 40px 20px;
+  background-color: #ffffff;
+}
+
+.branches-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.branch-circle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.branch-circle-item:hover {
+  transform: translateY(-5px);
+}
+
+/* กรอบวงกลม */
+.circle-image-wrapper {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  border: 3px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #242220;
+}
+
+.circle-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.branch-circle-item:hover .circle-image-wrapper img {
+  transform: scale(1.08);
+}
+
+.branch-title {
+  margin-top: 15px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #333333;
+  text-align: center;
+}
+
+/* ปรับขนาดบนมือถือ */
+@media (max-width: 768px) {
+  .circle-image-wrapper {
+    width: 130px;
+    height: 130px;
+  }
+  .branches-grid {
+    gap: 20px;
+  }
+  .branch-title {
+    font-size: 0.9rem;
+  }
+}
+
+/* ==========================================
+   Display Image Grid (แสดงรูปภาพล้วน)
+   ========================================== */
+
+.category-section {
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #333333;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.category-grid {
+  display: flex;             /* เปลี่ยนเป็น Flexbox */
+  flex-wrap: wrap;           /* เมื่อรูปเยอะเกินจอ ให้ตัดขึ้นบรรทัดใหม่ */
+  justify-content: center;   /* จัดรูปให้อยู่ตรงกลางหน้าจอเสมอ */
+  align-items: center;
+  gap: 20px;                 /* ระยะห่างระหว่างรูป */
+  width: 100%;
+}
+
+.category-card {
+  width: 350px;              /* หรือปรับขนาดความกว้างการ์ดตามชอบ เช่น 240px - 280px */
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eee;
+}
+
+.card-img-box {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.card-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-title {
+  padding: 12px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #222222;
+  margin: 0;
+}
+
+/* รองรับมือถือ */
+@media (max-width: 900px) {
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr); /* จอกลาง-เล็ก แสดงแถวละ 2 รูป */
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .card-img-box {
+    height: 140px;
+  }
+  .card-title {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+}
+/* ==========================================
+   Lightbox (คลิกรูปขยายใหญ่)
+   ========================================== */
+.lightbox {
+  display: none; /* ซ่อนไว้เป็นค่าเริ่มต้น */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85); /* พื้นหลังสีดำโปร่งแสง */
+  backdrop-filter: blur(5px); /* เบลอพื้นหลังเล็กน้อย */
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.lightbox-content {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 8px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+  object-fit: contain;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.lightbox-close:hover {
+  color: #cccccc;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* ==========================================
+   Circle Back to Home Button (ปุ่มวงกลมกลับหน้าหลัก)
+   ========================================== */
+
+.back-home-btn {
+  position: fixed; /* ลอยค้างไว้ตรงมุมจอ แม้จะเลื่อนหน้าจอลงมา */
+  top: 40px;       /* ระยะห่างจากด้านบน */
+  left: 75px;      /* ระยะห่างจากด้านซ้าย */
+  width: 150px;     /* ความกว้างของวงกลม */
+  height: 150px;    /* ความสูงของวงกลม */
+  border-radius: 50%; /* ตัดขอบเป็นวงกลมเป๊ะๆ */
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* เงาใต้ปุ่มเพิ่มความเด่น */
+  border: 2px solid #ffffff; /* ขอบสีขาว */
+  z-index: 999;     /* ให้อยู่ชั้นบนสุดไม่โดนรูปบัง */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #242220; /* สีพื้นหลังปุ่ม (ปรับเปลี่ยนได้) */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.back-home-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ครอปรูปให้เต็มวงกลมพอดี */
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ไปชี้ */
+.back-home-btn:hover {
+  transform: scale(1.1); /* ขยายใหญ่ขึ้นเล็กน้อย */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* ปรับขนาดบนมือถือให้เล็กลงนิดหน่อย */
+@media (max-width: 768px) {
+  .back-home-btn {
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* ปรับลดขนาดรูปล่างสุด (MemoDecozy) ให้เล็กลงและอยู่ตรงกลาง */
+.image-banner img.memo-banner {
+  max-width: auto;  /* ปรับขนาดความกว้างสูงสุดตามต้องการ เช่น 500px หรือ 600px */
+  width: 100%;       /* ยืดหยุ่นตามหน้าจอไม่ให้ล้นมือถือ */
+  height: 800px;
+  display: block;
+  margin: 0 auto;    /* จัดให้อยู่ตรงกลางหน้าจอ */
+ 
+}
